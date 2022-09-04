@@ -19,6 +19,8 @@ export function todoReducer(state = initialState, action) {
             return action.payload;
         case 'ARCHIVE':
             return action.payload;
+        case 'RESTORE':
+            return action.payload;
         case 'UPDATE':
             return action.payload;
         case 'CHECK':   

@@ -3,7 +3,8 @@ import './styles/style.css'
 import React, {useEffect, useState} from 'react'
 import Input from './components/Input'
 import Filters from './components/Filters'
-import Tasks from './components/Tasks'
+import Task from './components/Task';
+import DeletedTask from './components/DeletedTask';
 import { useSelector } from 'react-redux';
 
 
@@ -18,13 +19,14 @@ function App() {
 
   return (
     <div className="to-do-list">
-      <Input />
+      <Input status={status}/>
       <Filters setStatus={setStatus} />
       <ul className="tasks">
         {tasks?.length 
           ? tasks.map(task => {
             // console.log("task: ", task);
-            return (<Tasks test={task} status={status}/>)
+            if(task.isDeleted) return (<DeletedTask item={task} status={status} key={task._id}/>)
+            return (<Task item={task} status={status} key={task._id}/>)
           }) 
           : <h3 className="empty-header" >There is no task to show</h3>}
       </ul>

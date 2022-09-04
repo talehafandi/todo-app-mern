@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { add, getAllTasks } from '../redux/actions/actions';
 
 
-const Input = () => {
+const Input = ({status}) => {
 
     const dispatch = useDispatch();
     // const tasks = useSelector(state=>state);
@@ -19,11 +19,10 @@ const Input = () => {
         
         const obj={
             name: inputValue,
-            id: uuid(),
             status: 'pending'
         }
   
-        validate(inputValue) ? dispatch(add(obj)) : alert("Can not enter empty string");
+        validate(inputValue) ? dispatch(add(obj, status)) : alert("Can not enter empty string");
         setInputValue("");
     }
 

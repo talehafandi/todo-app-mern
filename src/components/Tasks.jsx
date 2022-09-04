@@ -1,30 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CgTrashEmpty } from "react-icons/cg";
 import { AiOutlineCheck } from "react-icons/ai";
 import { MdRecycling } from 'react-icons/md'
-import { useSelector, useDispatch } from "react-redux";
-import {
-  archiveTask,
-  statusToogle,
-  updateTask,
-  getAllTasks,
-} from "../redux/actions/actions";
-// import { uuid } from "uuidv4";
+import { useDispatch } from "react-redux";
+import { archiveTask, statusToogle, updateTask,} from "../redux/actions/actions";
 
-const Tasks = ({ test, status }) => {
-  // const tasks = useSelector((state) => state);
+
+const Tasks = ({ item, status }) => {
   const dispatch = useDispatch();
-  // const [tasksState, setTasksState] = useState({})
-  const [task, setTask] = useState(test);
+  const [task, setTask] = useState(item);
 
-  // return tasks.map((el, index) => {
-  // const task = tasksState[index]
-  // console.log("task: ", task);
-  // console.log("test: ", test);
   useEffect(() => {
-    // console.log('re-rendered');
-    setTask({ ...test });
-  }, [test]);
+    setTask({ ...item });
+  }, [item]);
 
   // console.log('status: ', status);
 
@@ -37,11 +25,11 @@ const Tasks = ({ test, status }) => {
         className="task"
         value={task?.name}
         onChange={(e) => {
-          if (task.isDeleted) return;
+          if (task?.isDeleted) return;
           setTask((prev) => ({ ...prev, name: e.target.value }));
         }}
         onBlur={() => {
-          if (task.isDeleted) return;
+          if (task?.isDeleted) return;
           dispatch(updateTask(task, status));
         }}
       />
@@ -68,7 +56,6 @@ const Tasks = ({ test, status }) => {
       </div>
     </div>
   );
-  // });
 };
 
 export default Tasks;

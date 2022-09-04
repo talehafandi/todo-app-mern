@@ -28,8 +28,10 @@ app.get('/api/v1/tasks', taskController.getAllTasks)
 app.get('/api/v1/tasks/archived', taskController.getArchived)
 app.get('/api/v1/tasks/:status', taskController.getPendings)
 app.post('/api/v1/tasks/add', taskController.addTask)
-app.delete('/api/v1/tasks/archive/:id', taskController.archiveTask)
+app.patch('/api/v1/tasks/archive/:id', taskController.archiveTask)
+app.patch('/api/v1/tasks/restore/:id', taskController.restoreTask)
 app.patch('/api/v1/tasks/update/:id', taskController.updateTask)
+app.delete('/api/v1/tasks/delete/:id',taskController.deleteTask)
 app.delete('/api/v1/tasks/clear-all',taskController.deleteAll)
 
 

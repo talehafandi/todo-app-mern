@@ -30,13 +30,18 @@ export const clearAll = () => {
 }
 
 // ADD A TASK
-export const add = (obj) => {
+export const add = (task, status) => {
   return async (dispatch) => {
     try {
-      const res = await requests.addTask(obj)
+      const options = { isDeleted: false }
+
+      if(status === 'deleted') throw Error('no task can be added')
+      if(status === 'pending' || status === 'done') options.status = status
+
+      const res = await requests.addTask({task, options })
       dispatch({ type: 'ADD', payload: res.data.tasks })
     } catch (error) {
-      console.log(error.catch);
+      console.log(error);
     }
   }
 }
@@ -50,24 +55,34 @@ export const archiveTask = (id, status) => {
       if(status === 'deleted') options.isDeleted = true
       if (status === "done" || status === "pending") options.status = status;
       console.log("options: ", options);
-      const res = await requests.archiveTask(id, options)
+      const res = await requests.archiveTask(id, {options})
       
       dispatch({ type: 'ARCHIVE', payload: res.data.tasks })
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
+    }
+  }
+}
+
+// RESTORE A TASK
+export const restoreTask = (id) => {
+  return async (dispatch) => {
+    try {
+      const res = await requests.restoreTask(id)
+      
+      dispatch({ type: 'RESTORE', payload: res.data.tasks })
+    } catch (error) {
+      console.log(error);
     }
   }
 }
 
 // DELETE A TASK
 
-export const deleteTask = (id, status) => {
+export const deleteTask = (id) => {
   return async (dispatch) => {
     try {
-      const options = {isDeleted: false}
-      if(status === 'deleted') options.isDeleted = true
-      if (status === "done" || status === "pending") options.status = status;
-      const res = await requests.archiveTask(id, options)
+      const res = await requests.deleteTask(id)
       
       dispatch({ type: 'ARCHIVE', payload: res.data.tasks })
     } catch (error) {
@@ -79,16 +94,17 @@ export const deleteTask = (id, status) => {
 
 //UPDATE A TASK
 
-export const updateTask = (data, filter) => {
+export const updateTask = (data, status) => {
 
   return async (dispatch) => {
     try {
-      filter.isDeleted = false
-      const res = await requests.updateTask(data._id, { data, filter })
+      const options = {isDeleted: false }
+      if(status === 'done' || status === 'pending') options.status = status
+      const res = await requests.updateTask(data._id, { data, options })
 
       dispatch({ type: 'UPDATE', payload: res.data.tasks })
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   }
 
