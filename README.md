@@ -1,6 +1,1 @@
-"# react-to-do-list-" 
-"# react-to-do-list-" 
-"# react-to-do-list-" 
-"# mern-todo" 
-"# mern-todo" 
-"# mern-todo" 
+# MERN stack to do app
